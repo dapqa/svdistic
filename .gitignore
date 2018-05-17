@@ -1,0 +1,62 @@
+########### Custom ###########
+creds.txt
+notes/*
+*.o
+*.txt
+
+!data/bad_test.txt
+!data/good_test.txt
+!data/good_test_preds.txt
+!weights/test_Ru.txt
+!weights/test_Ysum.txt
+!weights/test_W_i.txt
+!weights/test_W_p.txt
+!weights/test_W_u.txt
+
+train_svd
+train_svdpp
+test_svd
+test_svdpp
+test_utils
+
+
+##############################
+##############################
+##############################
+##########  Git   ############
+**/.git
+!**/.gitkeep
+
+##########  Data  ############
+**/*.log
+**/*.p
+**/*.csv
+**/*.tsv
+**/*.gz
+**/*.zip
+**/*.model
+
+########## Python ############
+# Cache files
+**/__pycache__
+**/*.pyc
+**/.cache
+
+# Venv
+**/venv
+
+######### Editors ############
+# Vim files
+**/*.swo
+**/*.swp
+*~
+# IDE filter for .idea 
+**/.idea
+# Macs
+**/.DS_Store
+
+Boba
+EncMeta
+DobbinMeta
+DatabaseMeta
+InterfacesMeta
