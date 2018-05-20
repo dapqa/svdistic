@@ -1,23 +1,51 @@
-# SVD, SVD++ implementations.
-Implementation of rank-approximation SVD and SVD++ algorithms on Eigen.
+# SVDistic
+Optimized-for-speed Eigen implementations of SVD, SVD++ and TimeSVD++ algorithms.
 
 ![license](https://img.shields.io/github/license/mashape/apistatus.svg)
 [![Maintenance Intended](http://maintained.tech/badge.svg)](http://maintained.tech/)
 
 ## Requirements
-You must have Eigen installed. Find installation instructions here:
+This application is fully Dockerized for easier usage. We suggest having at least Docker 18.03.1-ce installed.
+
+If you wish to do not wish to deploy through Docker, you must have Eigen installed.
+Find installation instructions here:
 <http://eigen.tuxfamily.org/index.php?title=Main_Page>.
-We intend to Dockerize this package for easier distribution in the near future.
+
+### Usage
+To build and run the Dockerfile: `docker build .` and `docker run`.
+
+Usage instructions for the actual Svdistic program.
+```
+Usage: ./svdistic <svd/svdpp/help> <train/infer/score>
+Options: required settings are flaired with [r]
+-model_id    STRING:  name of the model
+-fname       STRING:  file name of data in data/corpus/
+-n_product   INT:     number of products
+-n_user      INT:     number of users
+-n_example   INT:     number of examples to process
+-report_freq INT:     frequency of epoch reports
+-n_epochs    INT:     number of epochs to run training for
+-reg         FLOAT:   regularization term strength
+-lr          FLOAT:   learning rate
+```
+
+Add your data files to /data/corpus and note the filename as command line arguments to the program. For training and validation, your data files must match the data format specified in the following section with three valid columns denoting user id, product id and ranking. For inference, your data file must still meet the data format, but fill in whatever you want for ranking. We plan on patcing this in later versions.
 
 ## Data format.
-The standard data format is: `user_index,product_index,int_score`.
-Entries with the same `user_index` should be consecutive.
-Ensure `user_index` is within 0 and `N_USER`,
-`product_index` within 0 and `N_PRODUCT`, and y is within 1 and 5.
-Entires of a single user must be consecutive.
+### Input data.
+The standard data format is a csv file, where each entry corresponding to a ranking.
+Do not add a header line.
 
+Each line consists of 3 pairs: `user_index,product_index,score`.
+To calculate the user index, transform user ids to indices ranging from 0 to the number of users.
+The same process applies to product indexing.
+Scores are expected to be integer values, although we weakly support float rankings.
+
+Please note that **entries must be ordered by user index**. Entries with the same user index should be consecutive in the data file.
+
+### Weight dumps.
 Weights dumps are a column-major iteration through matrix
-values, where each line corresponds to the value.
+values. Every entry is separated by a newline.
 
 ## Usage.
 `make all` first.
@@ -38,18 +66,4 @@ For RMSE scoring, add your data file to `data/validation.txt`,
 update `types.h` to match your `N_USER`, `N_EXAMPLE`, `N_PRODUCT`
 and specify hyperparameters. Then, run `./svd -validation` or
 `./svdpp -validation`. The RMSE will be streamed to stdout.
-
-## Todo
-* Complete TimeSVD++ implementation.
-* Add proper error messages, rather than allowing program
-  to naturally fail.
-* Bundle into Python package & make hyperparameters togglable.
-* Dockerize this C++ library for easier distribution.
-
-## Tests
-We currently offer 3 sets of unit tests: one for SVD
-logic, SVD++ logic, and utilities logic. To run the
-test suite, replace `types.h` with `test_types.h`.
-Build with `make all` and run `./test_svd` and `./test_svdpp`.
-
 

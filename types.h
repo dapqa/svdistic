@@ -9,34 +9,18 @@
 #include <fstream>
 
 
-static const int N_EPOCHS = 500;
-static const int N_PRODUCT = 3;
-static const int N_USER = 4;
-static const int N_LATENT = 2;
-static const int N_EXAMPLE = 11;
-
-static const int EMPTY_VAL = 0;
-
-static const float GAMMA = 0.05;
-static const float LR = 0.005;
-
-
 using namespace Eigen;
 using namespace std;
 
 
-// For storing training data.
-typedef Matrix< int, Dynamic, 4 > ExampleMat;
+static const int N_LATENT = 50;
 
-// Store W_u
-typedef Matrix< float, Dynamic, Dynamic > UserMat;
-// Store W_p and W_i
-typedef Matrix< float, Dynamic, Dynamic > ProductMat;
-
-// Vectors
+typedef Matrix< int, 3, Dynamic > ExampleMat;
+typedef Matrix< float, N_LATENT, Dynamic > UserMat;
+typedef Matrix< float, N_LATENT, Dynamic > ProductMat;
 typedef Matrix< float, N_LATENT, 1 > LatentVec;
-typedef Matrix< float, N_EXAMPLE, 1 > ExampleVec;
-typedef Matrix< float, N_PRODUCT, 1 > ProductVec;
-typedef Matrix< float, N_USER, 1 > UserVec;
+typedef Matrix< float, Dynamic, 1 > ExampleVec;
+typedef Matrix< float, Dynamic, 1 > ProductVec;
+typedef Matrix< float, Dynamic, 1 > UserVec;
 
 #endif

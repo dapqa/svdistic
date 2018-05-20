@@ -1,20 +1,41 @@
 #include "../types.h"
 
+#ifndef _PIPES_H
+#define _PIPES_H
 
-int input_pipeline(ExampleMat& X_tr, string trainFile);
-void load_weights(UserMat& W_u, ProductMat& W_i,
-                   ProductMat& W_p, UserVec& Ru_terms,
-                   UserMat& Ysum_terms, string W_u_f,
-                   string W_i_f, string W_p_f,
-                   string Ru_f, string Ysum_f);
-void load_weights(UserMat& W_u, ProductMat& W_p,
-                  string W_u_f, string W_p_f);
-void save_pipeline(UserMat& W_u, ProductMat& W_i,
-                   ProductMat& W_p, UserVec& Ru_terms,
-                   UserMat& Ysum_terms, string W_u_f,
-                   string W_i_f, string W_p_f,
-                   string Ru_f, string Ysum_f);
-void save_pipeline(UserMat& W_u, ProductMat& W_p,
-                   string W_u_f, string W_p_f);
-void save_pipeline(ExampleVec& Pred_terms, string p_f);
+// Options defined in pipes.cpp.
+int input_pipeline(ExampleMat& X, int N_EXAMPLE, string f_name);
+float load_float(string f_name);
+void save_float(float v, string f_name);
 
+// Load a matrix from a file.
+// TODO: check if file exists and is legal.
+template<class T, int rows, int cols>
+void load_matrix(Matrix<T, rows, cols>& m, string f_name, int x, int y)
+{
+  float v;
+  m.resize(x, y);
+  int i = 0;
+  FILE *f = fopen(f_name.c_str(), "r");
+  while(fscanf(f, "%f", &v) != EOF)
+  {
+		m(i) = v;
+    ++i;
+	}
+}
+
+// Save a matrix into a file.
+// TODO: check if directory exists.
+template<class T, int rows, int cols>
+void save_matrix(Matrix<T, rows, cols>& m, string f_name)
+{
+	IOFormat NewlineFmt(StreamPrecision, DontAlignCols,
+											"\n", "\n", "", "", "", "");
+	ofstream file(f_name.c_str());
+  if (file.is_open())
+  {
+    file << m.transpose().format(NewlineFmt);
+  }
+}
+
+#endif
