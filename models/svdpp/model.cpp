@@ -45,6 +45,10 @@ void SVDpp::train(ExampleMat& X_tr)
       cout << "Epoch " << epc << " finished. RMSE on training set is "
            << Base::score(X_tr) << "." << endl;
     }
+    
+    // Decay learning rate
+    LR *= LR_DECAY;
+    cout << "LR: " << LR << endl;
   }
   cout << "Saving weights..." << endl;
   save_weights();

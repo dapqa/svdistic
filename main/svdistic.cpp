@@ -18,7 +18,8 @@ int usage_message()
        << "-report_freq INT:     frequency of epoch reports"  << endl
        << "-n_epochs    INT:     number of epochs to run training for"  << endl
        << "-reg         FLOAT:   regularization term strength"  << endl
-       << "-lr          FLOAT:   learning rate"  << endl;
+       << "-lr          FLOAT:   learning rate"  << endl
+       << "-lr_decay    FLOAT:   learning rate decay"  << endl;
   return 1;
 }
 
@@ -80,6 +81,11 @@ int set_params(SVD& model, int argc, char* argv[], string& fname)
       istringstream in(argv[i + 1]);
       in >> model.LR;
     }
+    else if (strcmp(argv[i], "-lr_decay") == 0)
+    {
+      istringstream in(argv[i + 1]);
+      in >> model.LR_DECAY;
+    }
     else
     {
       return 1;
@@ -134,6 +140,7 @@ int main(int argc, char* argv[])
     model.REG_B = 0.005;
     model.REG_W = 0.015;
     model.LR = 0.001;
+    model.LR_DECAY = 0.9;
 
     // If not help message, require model mode.
     if (argc == 2) return usage_message();
@@ -157,6 +164,7 @@ int main(int argc, char* argv[])
     model.REG_B = 0.005;
     model.REG_W = 0.015;
     model.LR = 0.001;
+    model.LR_DECAY = 0.9;
 
     // If not help message, require model mode.
     if (argc == 2) return usage_message();

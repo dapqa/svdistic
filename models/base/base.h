@@ -32,6 +32,7 @@ class Base
     float REG_B;
     float REG_W;
     float LR;
+    float LR_DECAY;
 
   protected:
     // pred_diff = pred - truth.
