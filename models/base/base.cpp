@@ -8,8 +8,8 @@
 // examples for a given number of epochs.
 void Base::train(ExampleMat& X_tr)
 {
-  float best_score = -1;
-  float current_score = -1;
+  // float best_score = -1;
+  // float current_score = -1;
   cout << "Beginning training for " << N_EPOCHS << " epochs on model "
        << model_id << "." << endl;
   calc_mu(X_tr);
@@ -27,6 +27,7 @@ void Base::train(ExampleMat& X_tr)
 
     }
 
+    /*
     current_score = score(X_tr);
     if ((best_score == (-1)) || (current_score < best_score))
     {
@@ -36,15 +37,19 @@ void Base::train(ExampleMat& X_tr)
       save_weights();
       cout << "Weights saved." << endl;
     }
+    */
 
     // If it's time to report.
     if ((epc % REPORT_FREQ) == 0)
     {
       cout << "Epoch " << epc << ". RMSE on training set is "
-           << current_score << "." << endl;
+           << score(X_tr) << "." << endl;
     }
   }
 
+  cout << "Saving weights..." << endl;
+  save_weights();
+  cout << "Weights saved." << endl;
   cout << "Training is complete." << endl;
 }
 
