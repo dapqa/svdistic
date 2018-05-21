@@ -2,8 +2,7 @@
 Optimized-for-speed Eigen implementations of SVD, SVD++ and TimeSVD++ algorithms.
 
 ![license](https://img.shields.io/github/license/mashape/apistatus.svg)
-[![Maintenance Intended](http://maintained.tech/badge.svg)](http://maintained.tech/)
-
+[![Maintenance Intended](http://maintained.tech/badge.svg)](http://maintained.tech/) 
 ## Requirements
 This application is fully Dockerized for easier usage. We suggest having at least Docker 18.03.1-ce installed.
 
@@ -47,23 +46,18 @@ Please note that **entries must be ordered by user index**. Entries with the sam
 Weights dumps are a column-major iteration through matrix
 values. Every entry is separated by a newline.
 
-## Usage.
-`make all` first.
+## CS156b instructions
+Download the cs156b corpus into `preprocessing/`. Run the preprocessing script `preprocessing/process.sh`. This will take a while. Then move the *.data files into `data/corpus/`.
 
-For training, add your data file to `data/train.txt`,
-update `types.h` to match your `N_USER`, `N_EXAMPLE`, `N_PRODUCT`
-and specify hyperparameters. Then, run `./svd -train` or
-`./svdpp -train`.
+Dummy test instructions:
+`./svdistic svd train -n_epochs 1000 -report_freq 100 -fname dummy.data -n_user 4 -n_product 3 -n_example 11`
 
-For inference, add your data file to `data/to_infer.txt`,
-fill in whatever values you want in the 3rd index of each
-line (where score would usually be).
-Update `types.h` to match your `N_USER`, `N_EXAMPLE`, `N_PRODUCT`
-and specify hyperparameters. Then, run `./svd -infer` or
-`./svdpp -infer`. The inference file is in "data/inferred.txt".
+Base data instructions:
+`./svdistic svd train -n_epochs 10 -report_freq 1 -fname base.data -n_user 458294 -n_product 17771 -n_example 94362233`
 
-For RMSE scoring, add your data file to `data/validation.txt`,
-update `types.h` to match your `N_USER`, `N_EXAMPLE`, `N_PRODUCT`
-and specify hyperparameters. Then, run `./svd -validation` or
-`./svdpp -validation`. The RMSE will be streamed to stdout.
+Probe score instructions:
+`./svdistic svd score -fname probe.data -n_user 458294 -n_product 17771 -n_example 100000`
+
+Qual infer instructions:
+`./svdistic svd infer -fname qual.data -n_user 458294 -n_product 17771 -n_example 100000`
 

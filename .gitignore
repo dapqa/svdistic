@@ -1,15 +1,19 @@
 ########### Custom ###########
-creds.txt
-notes/*
 *.o
-weights/
-*.txt
-data/
-
-!data/corpus
-!data/saves
-
 svdistic
+
+data/saves/*
+!data/saves/.gitkeep
+data/corpus/*
+!data/corpus/.gitkeep
+!data/corpus/dummy.data
+data/residuals/*
+!data/residuals/.gitkeep
+
+preprocessing/*
+!preprocessing/process.py
+!preprocessing/process.sh
+
 
 
 ##############################

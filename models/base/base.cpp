@@ -18,12 +18,12 @@ void Base::train(ExampleMat& X_tr)
     {
       // Update for examples
       update(X_tr, ij);
-    }
 
+    }
     // If it's time to report.
     if ((epc % REPORT_FREQ) == 0)
     {
-      cout << "Epoch " << epc << " finished. RMSE on training set is "
+      cout << "Epoch " << epc << ". RMSE on training set is "
            << score(X_tr) << "." << endl;
     }
   }
@@ -53,7 +53,7 @@ float Base::score(ExampleMat& X_val)
   }
   cout << "RMSE: " << all_diffs.squaredNorm() << endl;
 
-  return all_diffs.squaredNorm();
+  return sqrt(all_diffs.squaredNorm() / ((float) N_EXAMPLE));
 }
 
 
@@ -79,7 +79,7 @@ void Base::calc_mu(ExampleMat& X)
   {
     mu += X(2, ij);
   }
-  mu = mu / X.rows();
+  mu = mu / N_EXAMPLE;
 }
 
 

@@ -117,10 +117,10 @@ int main(int argc, char* argv[])
   {
     // If they want a SVD.
     SVD model;
-    model.model_id = "default";
-    model.N_PRODUCT = 3;
-    model.N_USER = 4;
-    model.N_EXAMPLE = 11;
+    model.model_id = "default_svd";
+    model.N_PRODUCT = 17771;
+    model.N_USER = 500;
+    model.N_EXAMPLE = 100000;
     model.REPORT_FREQ = 5;
     model.N_EPOCHS = 15;
     model.REG = 0.05;
@@ -139,10 +139,10 @@ int main(int argc, char* argv[])
   {
     // If they want a SVD++.
     SVDpp model;
-    model.model_id = "default";
-    model.N_PRODUCT = 3;
-    model.N_USER = 4;
-    model.N_EXAMPLE = 11;
+    model.model_id = "default_svdpp";
+    model.N_PRODUCT = 17771;
+    model.N_USER = 500;
+    model.N_EXAMPLE = 100000;
     model.REPORT_FREQ = 5;
     model.N_EPOCHS = 15;
     model.REG = 0.05;
