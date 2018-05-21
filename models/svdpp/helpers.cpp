@@ -89,7 +89,7 @@ void SVDpp::product_weight(float err, ExampleMat& X, int ij)
 {
   const int i = X(0, ij);
   const int j = X(1, ij);
-  W_p.col(j) += LR * (err * (W_u.col(i) + Ru(i) * Ysum.col(i)) - REG * W_p.col(j));
+  W_p.col(j) += LR * (err * (W_u.col(i) + Ru(i) * Ysum.col(i)) - REG_W * W_p.col(j));
 }
 
 
@@ -106,6 +106,6 @@ void SVDpp::accum_implicit(float err, ExampleMat& X, int ij)
 // W_i = W_i + LR * (implicit_terms - REG * W_i)
 void SVDpp::implicit_weight(int j)
 {
-  W_i.col(j) += LR * (implicit_terms - REG * W_i.col(j));
+  W_i.col(j) += LR * (implicit_terms - REG_W * W_i.col(j));
 }
 

@@ -29,7 +29,8 @@ class Base
 
     // Hyperparameters
     int N_EPOCHS;
-    float REG;
+    float REG_B;
+    float REG_W;
     float LR;
 
   protected:

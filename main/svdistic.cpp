@@ -62,10 +62,15 @@ int set_params(SVD& model, int argc, char* argv[], string& fname)
       istringstream in(argv[i + 1]);
       in >> model.N_EPOCHS;
     }
-    else if (strcmp(argv[i], "-reg") == 0)
+    else if (strcmp(argv[i], "-reg_bias") == 0)
     {
       istringstream in(argv[i + 1]);
-      in >> model.REG;
+      in >> model.REG_B;
+    }
+    else if (strcmp(argv[i], "-reg_weight") == 0)
+    {
+      istringstream in(argv[i + 1]);
+      in >> model.REG_W;
     }
     else if (strcmp(argv[i], "-lr") == 0)
     {
@@ -123,8 +128,9 @@ int main(int argc, char* argv[])
     model.N_EXAMPLE = 100000;
     model.REPORT_FREQ = 5;
     model.N_EPOCHS = 15;
-    model.REG = 0.05;
-    model.LR = 0.005;
+    model.REG_B = 0.005;
+    model.REG_W = 0.015;
+    model.LR = 0.001;
 
     // If not help message, require model mode.
     if (argc == 2) return usage_message();
@@ -145,8 +151,9 @@ int main(int argc, char* argv[])
     model.N_EXAMPLE = 100000;
     model.REPORT_FREQ = 5;
     model.N_EPOCHS = 15;
-    model.REG = 0.05;
-    model.LR = 0.005;
+    model.REG_B = 0.005;
+    model.REG_W = 0.015;
+    model.LR = 0.001;
 
     // If not help message, require model mode.
     if (argc == 2) return usage_message();

@@ -26,7 +26,7 @@ void SVD::user_weight(float err, ExampleMat& X, int ij)
 {
   const int i = X(0, ij);
   const int j = X(1, ij);
-  W_u.col(i) += LR * (err * W_p.col(j) - REG * W_u.col(i));
+  W_u.col(i) += LR * (err * W_p.col(j) - REG_W * W_u.col(i));
 }
 
 
@@ -36,7 +36,7 @@ void SVD::product_weight(float err, ExampleMat& X, int ij)
 {
   const int i = X(0, ij);
   const int j = X(1, ij);
-  W_p.col(j) += LR * (err * W_u.col(i) - REG * W_p.col(j));
+  W_p.col(j) += LR * (err * W_u.col(i) - REG_W * W_p.col(j));
 }
 
 // Initialize all weights.
