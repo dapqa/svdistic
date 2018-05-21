@@ -55,16 +55,27 @@ values. Every entry is separated by a newline.
 Download the cs156b corpus into `preprocessing/`. Run the preprocessing script `preprocessing/process.sh`. This will take a while. Then move the *.data files into `data/corpus/`.
 
 Dummy test instructions:
-`./svdistic svd train -n_epochs 1000 -report_freq 100 -fname dummy.data -n_user 4 -n_product 3 -n_example 11`
+```
+./svdistic svd train -n_epochs 1000 -report_freq 100 -fname dummy.data -n_user 4 -n_product 3 -n_example 11
+```
 
 Base data instructions:
-`./svdistic svd train -n_epochs 10 -report_freq 1 -fname base.data -n_user 458294 -n_product 17771 -n_example 94362233`
+```
+./svdistic svd train -n_epochs 10 -report_freq 1 -fname base.data -n_user 458294 -n_product 17771 -n_example 94362233
+./svdistic svdpp train -n_epochs 10 -report_freq 1 -fname base.data -n_user 458294 -n_product 17771 -n_example 94362233 -lr 0.0005
+```
 
 Probe score instructions:
-`./svdistic svd score -fname probe.data -n_user 458294 -n_product 17771 -n_example 1374739`
+```
+./svdistic svd score -fname probe.data -n_user 458294 -n_product 17771 -n_example 1374739
+./svdistic svdpp score -fname probe.data -n_user 458294 -n_product 17771 -n_example 1374739
+```
 
 Qual infer instructions:
-`./svdistic svd infer -fname qual.data -n_user 458294 -n_product 17771 -n_example 2749898`
+```
+./svdistic svd infer -fname qual.data -n_user 458294 -n_product 17771 -n_example 2749898
+./svdistic svdpp infer -fname qual.data -n_user 458294 -n_product 17771 -n_example 2749898
+```
 
 
 
