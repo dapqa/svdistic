@@ -27,6 +27,9 @@ int usage_message()
 int set_params(SVD& model, int argc, char* argv[], string& fname)
 { 
   // arg[0] = program, arg[1] = options, arg[2] = model.
+  if (argc % 2 == 0)
+    return 1;
+
   for (int i = 3; i < argc; i += 2)
   {
     if (strcmp(argv[i], "-model_id") == 0)
@@ -79,7 +82,7 @@ int set_params(SVD& model, int argc, char* argv[], string& fname)
     }
     else
     {
-      return usage_message();
+      return 1;
     }
   }
   return 0;
