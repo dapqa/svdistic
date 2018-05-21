@@ -76,11 +76,6 @@ int train(T& model, string fname)
   model.train(X_tr);
   cout << "Training completed." << endl;
 
-  // Save model weights.
-  cout << "Saving weights..." << endl;
-  model.save_weights();
-  cout << "Weights saved." << endl;
-
   return 0;
 }
 

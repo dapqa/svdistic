@@ -4,6 +4,8 @@
 
 void SVDpp::train(ExampleMat& X_tr)
 {
+  float best_score = -1;
+  float current_score = -1;
   cout << "Beginning training for " << N_EPOCHS << " epochs on model "
        << model_id << "." << endl;
   per_corpus(X_tr);
@@ -13,6 +15,10 @@ void SVDpp::train(ExampleMat& X_tr)
     per_epoch(X_tr);
     for (int ij = 0; ij < N_EXAMPLE; ++ij)
     {
+      // Note example count per 10M.
+      if (ij % 10000000 == 0)
+        cout << "Computing example " << ij << "." << endl;
+
       update(X_tr, ij);
       // If this is the final entry of the user.
       if ((ij + 1 == N_EXAMPLE) || (X_tr(0, ij) != X_tr(0, ij + 1)))
@@ -21,6 +27,17 @@ void SVDpp::train(ExampleMat& X_tr)
       }
     }
 
+    current_score = score(X_tr);
+    if ((best_score == (-1)) || (current_score < best_score))
+    {
+      best_score = current_score;
+      cout << "Saving best rmse to date: " << best_score << endl;
+      cout << "Saving weights..." << endl;
+      save_weights();
+      cout << "Weights saved." << endl;
+    }
+
+    // If it's time to report.
     if ((epc % REPORT_FREQ) == 0)
     {
       cout << "Epoch " << epc << " finished. RMSE on training set is "

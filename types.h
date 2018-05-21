@@ -13,7 +13,7 @@ using namespace Eigen;
 using namespace std;
 
 
-static const int N_LATENT = 500;
+static const int N_LATENT = 100;
 
 typedef Matrix< int, 3, Dynamic > ExampleMat;
 typedef Matrix< float, N_LATENT, Dynamic > UserMat;

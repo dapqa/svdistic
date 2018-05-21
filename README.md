@@ -56,8 +56,8 @@ Base data instructions:
 `./svdistic svd train -n_epochs 10 -report_freq 1 -fname base.data -n_user 458294 -n_product 17771 -n_example 94362233`
 
 Probe score instructions:
-`./svdistic svd score -fname probe.data -n_user 458294 -n_product 17771 -n_example 100000`
+`./svdistic svd score -fname probe.data -n_user 458294 -n_product 17771 -n_example 1374739`
 
 Qual infer instructions:
-`./svdistic svd infer -fname qual.data -n_user 458294 -n_product 17771 -n_example 100000`
+`./svdistic svd infer -fname qual.data -n_user 458294 -n_product 17771 -n_example 2749898`
 

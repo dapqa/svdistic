@@ -8,6 +8,8 @@
 // examples for a given number of epochs.
 void Base::train(ExampleMat& X_tr)
 {
+  float best_score = -1;
+  float current_score = -1;
   cout << "Beginning training for " << N_EPOCHS << " epochs on model "
        << model_id << "." << endl;
   calc_mu(X_tr);
@@ -16,15 +18,30 @@ void Base::train(ExampleMat& X_tr)
   {
     for (int ij = 0; ij < N_EXAMPLE; ++ij)
     {
+      // Note example count per 10M.
+      if (ij % 10000000 == 0)
+        cout << "Computing example " << ij << "." << endl;
+
       // Update for examples
       update(X_tr, ij);
 
     }
+
+    current_score = score(X_tr);
+    if ((best_score == (-1)) || (current_score < best_score))
+    {
+      best_score = current_score;
+      cout << "Saving best rmse to date: " << best_score << endl;
+      cout << "Saving weights..." << endl;
+      save_weights();
+      cout << "Weights saved." << endl;
+    }
+
     // If it's time to report.
     if ((epc % REPORT_FREQ) == 0)
     {
       cout << "Epoch " << epc << ". RMSE on training set is "
-           << score(X_tr) << "." << endl;
+           << current_score << "." << endl;
     }
   }
 
@@ -51,7 +68,7 @@ float Base::score(ExampleMat& X_val)
   {
     all_diffs(ij) = pred_diff(X_val, ij);
   }
-  cout << "RMSE: " << all_diffs.squaredNorm() << endl;
+  cout << "RMSE: " << sqrt(all_diffs.squaredNorm() / ((float) N_EXAMPLE)) << endl;
 
   return sqrt(all_diffs.squaredNorm() / ((float) N_EXAMPLE));
 }
