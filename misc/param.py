@@ -1,5 +1,5 @@
 # 20, 200, 400, 800, 1000
-n_latent = 20
+n_latent = 200
 n_product = 17771
 n_user = 458294
 base_example = 94362233

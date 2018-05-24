@@ -74,3 +74,9 @@ Qual infer instructions:
 ./svdistic svdpp infer -fname qual.data -n_user 458294 -n_product 17771 -n_example 2749898
 ```
 
+# Change for docker-machine
+Update types.h
+Update provision.sh
+Update misc/params.py
+Python3 params.py > misc/run.sh
+
