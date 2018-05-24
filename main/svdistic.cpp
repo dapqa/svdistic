@@ -17,7 +17,8 @@ int usage_message()
        << "-n_example   INT:     number of examples to process"  << endl
        << "-report_freq INT:     frequency of epoch reports"  << endl
        << "-n_epochs    INT:     number of epochs to run training for"  << endl
-       << "-reg         FLOAT:   regularization term strength"  << endl
+       << "-reg_weight  FLOAT:   weight regularization strength"  << endl
+       << "-reg_bias    FLOAT:   bias regularization strength"  << endl
        << "-lr          FLOAT:   learning rate"  << endl
        << "-lr_decay    FLOAT:   learning rate decay"  << endl;
   return 1;

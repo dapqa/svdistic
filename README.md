@@ -61,8 +61,8 @@ Dummy test instructions:
 
 Base data instructions:
 ```
-./svdistic svd train -n_epochs 10 -report_freq 1 -fname base.data -n_user 458294 -n_product 17771 -n_example 94362233
-./svdistic svdpp train -n_epochs 10 -report_freq 1 -fname base.data -n_user 458294 -n_product 17771 -n_example 94362233 -lr 0.0005
+./svdistic svd train -n_epochs 10 -report_freq 1 -fname base.data -n_user 458294 -n_product 17771 -n_example 94362233 -lr 0.005 -reg_bias 0.02 -reg_weight 0.03 -lr_decay 0.9
+./svdistic svdpp train -n_epochs 10 -report_freq 1 -fname base.data -n_user 458294 -n_product 17771 -n_example 94362233 -lr 0.007 -reg_bias 0.005 -reg_weight 0.015 -lr_decay 0.9
 ```
 
 Probe score instructions:
