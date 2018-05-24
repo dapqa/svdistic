@@ -57,55 +57,41 @@ void SVDpp::per_user(ExampleMat& X, int ij)
 void SVDpp::update(ExampleMat& X, int ij)
 {
   float err = pred_diff(X, ij);
-  // Update standard SVD rules.
   user_bias(err, X, ij);
   product_bias(err, X, ij);
   product_weight(err, X, ij);
   user_weight(err, X, ij);
-  // Update implicit_terms.
   accum_implicit(err, X, ij);
 }
 
-/***********************************************
- * Predict stuff
- **********************************************/
-// pred = mu + b_u + b_p + W_p(W_u + |R(u)|^-1/2 sum y_j)
-// Calculate for a specific example.
-float SVDpp::predict(ExampleMat& X, int ij)
-{
-  const int i = X(0, ij);
-  const int j = X(1, ij);
-  return mu + b_p(j) + b_u(i) + W_p.col(j).transpose() *
-      (W_u.col(i) + Ru(i) * Ysum.col(i));
-}
 
 /***********************************************
- * Update weights
+ * Saving/loading...
  **********************************************/
 
-// Update product weight: W_p = W_p + lr*(e*W_u[ui] - g * W_p)
-// Calculate for a specific example.
-void SVDpp::product_weight(float err, ExampleMat& X, int ij)
+// Initialize all weights.
+void SVDpp::init_weights()
 {
-  const int i = X(0, ij);
-  const int j = X(1, ij);
-  W_p.col(j) += LR * (err * (W_u.col(i) + Ru(i) * Ysum.col(i)) - REG_W * W_p.col(j));
+  implicit_terms.setZero();
+  W_i.setRandom(N_LATENT, N_PRODUCT);
+  SVD::init_weights();
 }
 
-
-// Accumulate implicit terms: += err * |R(u)|^(-1/2) * W_p
-void SVDpp::accum_implicit(float err, ExampleMat& X, int ij)
+// Save weights into file.
+void SVDpp::save_weights()
 {
-  const int i = X(0, ij);
-  const int j = X(1, ij);
-  implicit_terms += err * Ru(i) * W_p.col(j);
+  save_matrix<float, N_LATENT, -1>(W_i, "data/saves/" + model_id + "-W_i");
+  save_matrix<float, N_LATENT, -1>(Ysum, "data/saves/" + model_id + "-Ysum");
+  save_matrix<float, -1, 1>(Ru, "data/saves/" + model_id + "-Ru");
+  SVD::save_weights();
 }
 
-
-// Update implicit weight for all users:
-// W_i = W_i + LR * (implicit_terms - REG * W_i)
-void SVDpp::implicit_weight(int j)
+// Load weights from file.
+void SVDpp::load_weights()
 {
-  W_i.col(j) += LR * (implicit_terms - REG_W * W_i.col(j));
+  load_matrix<float, N_LATENT, -1>(W_i, "data/saves/" + model_id + "-W_i", N_LATENT, N_PRODUCT);
+  load_matrix<float, N_LATENT, -1>(Ysum, "data/saves/" + model_id + "-Ysum", N_LATENT, N_USER);
+  load_matrix<float, -1, 1>(Ru, "data/saves/" + model_id + "-Ru", N_USER, 1);
+  SVD::load_weights();
 }
 

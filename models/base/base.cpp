@@ -1,56 +1,42 @@
 #include "./base.h"
 
-/*******************************************************************
- * Higher level model logic.
- ******************************************************************/
+
+/***********************************************
+ * Higher level training step.
+ **********************************************/
 
 // Public function to train model on a set of
-// examples for a given number of epochs.
 void Base::train(ExampleMat& X_tr)
 {
-  // float best_score = -1;
-  // float current_score = -1;
   cout << "Beginning training for " << N_EPOCHS << " epochs on model "
        << model_id << "." << endl;
-  calc_mu(X_tr);
-
+  per_corpus(X_tr);
   for (int epc = 0; epc < N_EPOCHS; ++epc)
   {
+    per_epoch(X_tr);
     for (int ij = 0; ij < N_EXAMPLE; ++ij)
     {
       // Note example count per 10M.
       if (ij % 10000000 == 0)
         cout << "Computing example " << ij << "." << endl;
 
-      // Update for examples
       update(X_tr, ij);
-
+      // If this is the final entry of the user.
+      if ((ij + 1 == N_EXAMPLE) || (X_tr(0, ij) != X_tr(0, ij + 1)))
+      {
+        per_user(X_tr, ij);
+      }
     }
-
-    /*
-    current_score = score(X_tr);
-    if ((best_score == (-1)) || (current_score < best_score))
-    {
-      best_score = current_score;
-      cout << "Saving best rmse to date: " << best_score << endl;
-      cout << "Saving weights..." << endl;
-      save_weights();
-      cout << "Weights saved." << endl;
-    }
-    */
-
     // If it's time to report.
     if ((epc % REPORT_FREQ) == 0)
     {
-      cout << "Epoch " << epc << ". RMSE on training set is "
-           << score(X_tr) << "." << endl;
+      cout << "Epoch " << epc << " finished. RMSE on training set is "
+           << Base::score(X_tr) << "." << endl;
     }
-    
     // Decay learning rate
     LR *= LR_DECAY;
     cout << "LR: " << LR << endl;
   }
-
   cout << "Saving weights..." << endl;
   save_weights();
   cout << "Weights saved." << endl;
@@ -92,9 +78,9 @@ float Base::pred_diff(ExampleMat& X, int ij)
 }
 
 
-/*******************************************************************
- * Update bias terms.
- ******************************************************************/
+/***********************************************
+ * Update weights
+ **********************************************/
 
 // Calculate global average: mu.
 // Calculate for all examples.
@@ -126,3 +112,30 @@ void Base::product_bias(float err, ExampleMat& X, int ij)
   b_p(product) = b_p(product) + LR * (err - REG_B * b_p(product));
 }
 
+
+/***********************************************
+ * Init, save, load weights
+ **********************************************/
+
+// Initialize all weights.
+void Base::init_weights()
+{
+  b_u.setZero(N_USER);
+  b_p.setZero(N_PRODUCT);
+}
+
+// Save weights into file.
+void Base::save_weights()
+{
+  save_float(mu, "data/saves/" + model_id + "-mu");
+  save_matrix<float, -1, 1>(b_u, "data/saves/" + model_id + "-b_u");
+  save_matrix<float, -1, 1>(b_p, "data/saves/" + model_id + "-b_p");
+}
+
+// Load weights from file.
+void Base::load_weights()
+{
+  mu = load_float("data/saves/" + model_id + "-mu");
+  load_matrix<float, -1, 1>(b_u, "data/saves/" + model_id + "-b_u", N_USER, 1);
+  load_matrix<float, -1, 1>(b_p, "data/saves/" + model_id + "-b_p", N_PRODUCT, 1);
+}

@@ -94,6 +94,7 @@ int set_params(SVD& model, int argc, char* argv[], string& fname)
   return 0;
 }
 
+
 template <class T>
 int mode_handler(char* argv[], T& model, string fname)
 {

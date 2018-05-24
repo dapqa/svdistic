@@ -2,103 +2,47 @@
 #include "./helpers.cpp"
 
 
-void SVDpp::train(ExampleMat& X_tr)
+/***********************************************
+ * Predict stuff
+ **********************************************/
+// pred = mu + b_u + b_p + W_p(W_u + |R(u)|^-1/2 sum y_j)
+float SVDpp::predict(ExampleMat& X, int ij)
 {
-  // float best_score = -1;
-  // float current_score = -1;
-  cout << "Beginning training for " << N_EPOCHS << " epochs on model "
-       << model_id << "." << endl;
-  per_corpus(X_tr);
-
-  for (int epc = 0; epc < N_EPOCHS; ++epc)
-  {
-    per_epoch(X_tr);
-    for (int ij = 0; ij < N_EXAMPLE; ++ij)
-    {
-      // Note example count per 10M.
-      if (ij % 10000000 == 0)
-        cout << "Computing example " << ij << "." << endl;
-
-      update(X_tr, ij);
-      // If this is the final entry of the user.
-      if ((ij + 1 == N_EXAMPLE) || (X_tr(0, ij) != X_tr(0, ij + 1)))
-      {
-        per_user(X_tr, ij);
-      }
-    }
-
-    /*
-    current_score = score(X_tr);
-    if ((best_score == (-1)) || (current_score < best_score))
-    {
-      best_score = current_score;
-      cout << "Saving best rmse to date: " << best_score << endl;
-      cout << "Saving weights..." << endl;
-      save_weights();
-      cout << "Weights saved." << endl;
-    }
-    */
-
-    // If it's time to report.
-    if ((epc % REPORT_FREQ) == 0)
-    {
-      cout << "Epoch " << epc << " finished. RMSE on training set is "
-           << Base::score(X_tr) << "." << endl;
-    }
-    
-    // Decay learning rate
-    LR *= LR_DECAY;
-    cout << "LR: " << LR << endl;
-  }
-  cout << "Saving weights..." << endl;
-  save_weights();
-  cout << "Weights saved." << endl;
-  cout << "Training is complete." << endl;
+  const int i = X(0, ij);
+  const int j = X(1, ij);
+  return mu + b_p(j) + b_u(i) + W_p.col(j).transpose() *
+      (W_u.col(i) + Ru(i) * Ysum.col(i));
 }
 
 
-// Public function to obtain inferences on examples.
-// The preds matrix is mutated to contain the new
-// inferences.
-void SVDpp::infer(ExampleVec& preds, ExampleMat& X_test)
+/***********************************************
+ * Update weights
+ **********************************************/
+
+// Update product weight: W_p = W_p + lr*(e*W_u[ui] - g * W_p)
+void SVDpp::product_weight(float err, ExampleMat& X, int ij)
 {
-  Base::infer(preds, X_test);
+  const int i = X(0, ij);
+  const int j = X(1, ij);
+  W_p.col(j) += LR * (err * (W_u.col(i) + Ru(i) * Ysum.col(i)) - REG_W * W_p.col(j));
 }
 
 
-// Public function to score model on examples.
-// RMSE is returned.
-float SVDpp::score(ExampleMat& X_val)
+// Accumulate implicit terms: += err * |R(u)|^(-1/2) * W_p
+void SVDpp::accum_implicit(float err, ExampleMat& X, int ij)
 {
-  return Base::score(X_val);
+  const int i = X(0, ij);
+  const int j = X(1, ij);
+  implicit_terms += err * Ru(i) * W_p.col(j);
 }
 
 
-// Initialize all weights.
-void SVDpp::init_weights()
+// Update implicit weight for all users:
+// W_i = W_i + LR * (implicit_terms - REG * W_i)
+void SVDpp::implicit_weight(int j)
 {
-  implicit_terms.setZero();
-  W_i.setRandom(N_LATENT, N_PRODUCT);
-  SVD::init_weights();
+  W_i.col(j) += LR * (implicit_terms - REG_W * W_i.col(j));
 }
 
 
-// Save weights into file.
-void SVDpp::save_weights()
-{
-  save_matrix<float, N_LATENT, -1>(W_i, "data/saves/" + model_id + "-W_i");
-  save_matrix<float, N_LATENT, -1>(Ysum, "data/saves/" + model_id + "-Ysum");
-  save_matrix<float, -1, 1>(Ru, "data/saves/" + model_id + "-Ru");
-  SVD::save_weights();
-}
-
-
-// Load weights from file.
-void SVDpp::load_weights()
-{
-  load_matrix<float, N_LATENT, -1>(W_i, "data/saves/" + model_id + "-W_i", N_LATENT, N_PRODUCT);
-  load_matrix<float, N_LATENT, -1>(Ysum, "data/saves/" + model_id + "-Ysum", N_LATENT, N_USER);
-  load_matrix<float, -1, 1>(Ru, "data/saves/" + model_id + "-Ru", N_USER, 1);
-  SVD::load_weights();
-}
 
