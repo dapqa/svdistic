@@ -23,7 +23,8 @@ class SVD : public Base
     float predict(ExampleMat& X, int ij);
     void per_corpus(ExampleMat& X);
     void per_epoch(ExampleMat& X);
-    void per_user(ExampleMat& X, int ij);
+    void init_user(ExampleMat& X, int ij);
+    void end_user(ExampleMat& X, int ij);
     void update(ExampleMat& X, int ij);
 
     // Model weights

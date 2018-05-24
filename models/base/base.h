@@ -46,7 +46,8 @@ class Base
     virtual float predict(ExampleMat& X, int ij) = 0;
     virtual void per_corpus(ExampleMat& X) = 0;
     virtual void per_epoch(ExampleMat& X) = 0;
-    virtual void per_user(ExampleMat& X, int ij) = 0;
+    virtual void init_user(ExampleMat& X, int ij) = 0;
+    virtual void end_user(ExampleMat& X, int ij) = 0;
     virtual void update(ExampleMat& X, int ij) = 0;
 
     // Model weights.

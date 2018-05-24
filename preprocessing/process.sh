@@ -1,5 +1,5 @@
 python3 process.py
-sort -t $',' -n -k 1 -o base.data base.dta
-sort -t $',' -n -k 1 -o qual.data qual.dta
-sort -t $',' -n -k 1 -o probe.data probe.dta
+sort -k1,1n -t"," -o base.data base.dta
+sort -k1,1n -t"," -o qual.data qual.dta
+sort -k1,1n -t"," -o probe.data probe.dta
 

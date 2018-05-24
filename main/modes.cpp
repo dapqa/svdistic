@@ -23,7 +23,7 @@ int infer(T& model, string fname)
 
   // Save model inferences.
   cout << "Saving inferences..." << endl;
-  save_matrix(preds, "data/inferred.txt");
+  save_matrix(preds, "data/saves/" + model.model_id + "-inferred.txt");
   cout << "Inferences saved." << endl;
 
   return 0;
@@ -48,7 +48,11 @@ int score(T& model, string fname)
   cout << "Loaded weights." << endl;
 
   // Score model
-  model.score(X_val);
+  cout << "Scoring..." << endl;
+  float rmse = model.score(X_val);
+  cout << "RMSE: " << rmse << endl;
+  save_float(rmse, "data/saves/" + model.model_id + "-rmse.txt");
+  cout << "Scored." << endl;
 
   return 0;
 }
@@ -75,6 +79,10 @@ int train(T& model, string fname)
   cout << "Starting training..." << endl;
   model.train(X_tr);
   cout << "Training completed." << endl;
+
+  cout << "Saving weights..." << endl;
+  model.save_weights();
+  cout << "Weights saved." << endl;
 
   return 0;
 }

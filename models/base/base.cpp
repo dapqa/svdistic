@@ -16,30 +16,26 @@ void Base::train(ExampleMat& X_tr)
     per_epoch(X_tr);
     for (int ij = 0; ij < N_EXAMPLE; ++ij)
     {
-      // Note example count per 10M.
-      if (ij % 10000000 == 0)
+      if ((N_EXAMPLE > 1000000) && (ij % 1000000 == 0))
         cout << "Computing example " << ij << "." << endl;
-
-      update(X_tr, ij);
-      // If this is the final entry of the user.
-      if ((ij + 1 == N_EXAMPLE) || (X_tr(0, ij) != X_tr(0, ij + 1)))
+      if ((ij == 0) || (X_tr(0, ij) != X_tr(0, ij - 1)))
       {
-        per_user(X_tr, ij);
+        init_user(X_tr, ij);
+      }
+      update(X_tr, ij);
+      if ((ij == N_EXAMPLE - 1) || (X_tr(0, ij) != X_tr(0, ij + 1)))
+      {
+        end_user(X_tr, ij);
       }
     }
-    // If it's time to report.
     if ((epc % REPORT_FREQ) == 0)
     {
-      cout << "Epoch " << epc << " finished. RMSE on training set is "
-           << Base::score(X_tr) << "." << endl;
+      cout << "Epoch " << epc + 1 << " finished." << endl;
+      cout << "RMSE: " << Base::score(X_tr) << endl;
     }
-    // Decay learning rate
     LR *= LR_DECAY;
-    cout << "LR: " << LR << endl;
   }
-  cout << "Saving weights..." << endl;
-  save_weights();
-  cout << "Weights saved." << endl;
+
   cout << "Training is complete." << endl;
 }
 
@@ -63,7 +59,6 @@ float Base::score(ExampleMat& X_val)
   {
     all_diffs(ij) = pred_diff(X_val, ij);
   }
-  cout << "RMSE: " << sqrt(all_diffs.squaredNorm() / ((float) N_EXAMPLE)) << endl;
 
   return sqrt(all_diffs.squaredNorm() / ((float) N_EXAMPLE));
 }
@@ -139,3 +134,4 @@ void Base::load_weights()
   load_matrix<float, -1, 1>(b_u, "data/saves/" + model_id + "-b_u", N_USER, 1);
   load_matrix<float, -1, 1>(b_p, "data/saves/" + model_id + "-b_p", N_PRODUCT, 1);
 }
+

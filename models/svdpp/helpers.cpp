@@ -12,56 +12,77 @@ void SVDpp::per_corpus(ExampleMat& X)
   Ru.setZero(N_USER);
   for (int ij = 0; ij < N_EXAMPLE; ++ij)
   {
-    // Increment count for a user.
     ++Ru(X(0, ij));
   }
-  // Now we make Ru = |Ru|^(-1/2)
-  Ru = Ru.cwiseSqrt().cwiseInverse();
 
-  // Initialize for the first epoch.
-  per_epoch(X);
+  // Now we make Ru = |Ru|^(-1/2)
+  RuNorm = Ru.cwiseAbs().cwiseSqrt().cwiseInverse();
 }
 
 // Initialize for an epoch
 void SVDpp::per_epoch(ExampleMat& X)
 {
-  // Initialize Ysum: the sum of W_i for the products of each user.
-  
-  // Zero Ysum first.
-  Ysum.setZero(N_LATENT, N_USER);
-  for (int ij = 0; ij < N_EXAMPLE; ++ij)
-  {
-    // Update ysum for the user.
-    Ysum.col(X(0, ij)) += W_i.col(X(1, ij));
-  }
-
-  // Initialize for the first user.
-  user_start_ij = 0;
 }
 
 // Initalize user info
-void SVDpp::per_user(ExampleMat& X, int ij)
+void SVDpp::init_user(ExampleMat& X, int ij)
 {
-  // We handle the previos user
-  // Note this is skipped if first user.
-  for (int k = user_start_ij; k <= ij; ++k)
+  // Note the start of this user.
+  user_start_ij = ij;
+
+  // Build initial Ysum calculation.
+  const int i = X(0, ij);
+  Ysum.col(i).setZero();
+  for (int ijj = user_start_ij; ijj < user_start_ij + Ru(i); ++ijj)
   {
-    implicit_weight(X(1, k));
+    Ysum.col(i) += W_i.col(X(1, ijj));
   }
 
-  implicit_terms.setZero();
-  user_start_ij = ij + 1;
+  // Clear the implicit term which will accumulate.
+  implicit_term.setZero();
+  scale = 0;
+}
+
+// End user
+void SVDpp::end_user(ExampleMat& X, int ij)
+{
+  if (scale != 0)
+  {
+    // Update the weight of all products.
+    implicit_term = implicit_term / (float) scale;
+    implicit_weight(X, X(0, ij));
+  }
 }
 
 // Initialize for an element.
 void SVDpp::update(ExampleMat& X, int ij)
 {
-  float err = pred_diff(X, ij);
+  float err = pred_diff(X, ij); 
   user_bias(err, X, ij);
   product_bias(err, X, ij);
   product_weight(err, X, ij);
   user_weight(err, X, ij);
+ 
+  // Manipualtes implicit term
   accum_implicit(err, X, ij);
+  scale += 1;
+
+  // Occasional update every 100 products.
+  if (((ij - user_start_ij) + 1) % 100 == 0)
+  {
+    const int i = X(0, ij);
+
+    implicit_term = implicit_term / (float) scale;
+    implicit_weight(X, i);
+    implicit_term.setZero();
+    scale = 0;
+
+    Ysum.col(i).setZero();
+    for (int ijj = user_start_ij; ijj < user_start_ij + Ru(i); ++ijj)
+    {
+      Ysum.col(i) += W_i.col(X(1, ijj));
+    }
+  }
 }
 
 
@@ -72,8 +93,9 @@ void SVDpp::update(ExampleMat& X, int ij)
 // Initialize all weights.
 void SVDpp::init_weights()
 {
-  implicit_terms.setZero();
   W_i.setRandom(N_LATENT, N_PRODUCT);
+  W_i = 0.00000001 * (W_i + W_i.Ones(N_LATENT, N_PRODUCT));
+  Ysum.setZero(N_LATENT, N_USER);
   SVD::init_weights();
 }
 
@@ -92,6 +114,7 @@ void SVDpp::load_weights()
   load_matrix<float, N_LATENT, -1>(W_i, "data/saves/" + model_id + "-W_i", N_LATENT, N_PRODUCT);
   load_matrix<float, N_LATENT, -1>(Ysum, "data/saves/" + model_id + "-Ysum", N_LATENT, N_USER);
   load_matrix<float, -1, 1>(Ru, "data/saves/" + model_id + "-Ru", N_USER, 1);
+  RuNorm = Ru.cwiseAbs().cwiseSqrt().cwiseInverse();
   SVD::load_weights();
 }
 

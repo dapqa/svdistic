@@ -11,7 +11,7 @@ float SVDpp::predict(ExampleMat& X, int ij)
   const int i = X(0, ij);
   const int j = X(1, ij);
   return mu + b_p(j) + b_u(i) + W_p.col(j).transpose() *
-      (W_u.col(i) + Ru(i) * Ysum.col(i));
+      (W_u.col(i) + RuNorm(i) * Ysum.col(i));
 }
 
 
@@ -24,25 +24,25 @@ void SVDpp::product_weight(float err, ExampleMat& X, int ij)
 {
   const int i = X(0, ij);
   const int j = X(1, ij);
-  W_p.col(j) += LR * (err * (W_u.col(i) + Ru(i) * Ysum.col(i)) - REG_W * W_p.col(j));
+  W_p.col(j) += LR * (err * (W_u.col(i) + RuNorm(i) * Ysum.col(i)) -
+                      REG_W * W_p.col(j));
 }
 
+// W_i = W_i + LR * (err * Runorm * W_p - REG * W_i)
+void SVDpp::implicit_weight(ExampleMat &X, int i)
+{
+  for (int ijj = user_start_ij; ijj < user_start_ij + Ru(i); ++ijj)
+  {
+    const int jj = X(1, ijj);
+    W_i.col(jj) += LR * (implicit_term - REG_W * W_i.col(jj));
+  }
+}
 
-// Accumulate implicit terms: += err * |R(u)|^(-1/2) * W_p
+// W_i = W_i + LR * (err * Runorm * W_p - REG * W_i)
 void SVDpp::accum_implicit(float err, ExampleMat& X, int ij)
 {
   const int i = X(0, ij);
   const int j = X(1, ij);
-  implicit_terms += err * Ru(i) * W_p.col(j);
+  implicit_term += err * RuNorm(i) * W_p.col(j);
 }
-
-
-// Update implicit weight for all users:
-// W_i = W_i + LR * (implicit_terms - REG * W_i)
-void SVDpp::implicit_weight(int j)
-{
-  W_i.col(j) += LR * (implicit_terms - REG_W * W_i.col(j));
-}
-
-
 

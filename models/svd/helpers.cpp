@@ -15,7 +15,10 @@ void SVD::per_epoch(ExampleMat& X)
 }
 
 // Initalize user info
-void SVD::per_user(ExampleMat& X, int ij)
+void SVD::init_user(ExampleMat& X, int ij)
+{
+}
+void SVD::end_user(ExampleMat& X, int ij)
 {
 }
 
@@ -39,6 +42,8 @@ void SVD::init_weights()
 {
   W_u.setRandom(N_LATENT, N_USER);
   W_p.setRandom(N_LATENT, N_PRODUCT);
+  W_u = 0.1 * (W_u + W_u.Ones(N_LATENT, N_USER));
+  W_p = 0.1 * (W_p + W_p.Ones(N_LATENT, N_PRODUCT));
   Base::init_weights();
 }
 
