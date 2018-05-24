@@ -25,7 +25,7 @@ for model_type in model_types:
     for rw in reg_w:
       for rb in reg_b:
         for l in lr:
-          name = model_type + "-" + str(epoch) + "-" + str(l) + "-" + str(rb) + "-" + str(rw)
+          name = model_type + "-" + str(epoch) + "-" + str(l) + "-" + str(rb) + "-" + str(rw) + "-" + str(n_latent)
           trainc = "./svdistic %s train -n_epochs %s -report_freq 100 -fname base.data -n_user 458294 -n_product 17771 -n_example 94362233 -lr %s -reg_bias %s -reg_weight %s -lr_decay 0.95 -model_id %s" % (model_type, epoch, l, rb, rw, name)
           scorec = "./svdistic %s score -fname probe.data -n_user 458294 -n_product 17771 -n_example 94362233 -model_id %s" % (model_type, name)
           print(trainc)

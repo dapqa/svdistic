@@ -1,4 +1,5 @@
-preprocessing/
-data/
-!data/corpus
-!data/saves
+*.data
+*.dta
+*.idx
+*.txt
+

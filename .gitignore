@@ -2,6 +2,8 @@
 *.o
 svdistic
 
+provision.sh
+
 data/saves/*
 !data/saves/.gitkeep
 data/corpus/*

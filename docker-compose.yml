@@ -1,0 +1,15 @@
+version: '3.4'
+
+volumes:
+  saves:
+
+services:
+  main:
+    container_name: main
+    volumes:
+      - ~/data/saves:/service/data/saves
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    tty: true
+
