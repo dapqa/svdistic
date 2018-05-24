@@ -3,6 +3,7 @@
 svdistic
 
 provision.sh
+misc/run.sh
 
 data/saves/*
 !data/saves/.gitkeep

@@ -67,8 +67,8 @@ void SVDpp::update(ExampleMat& X, int ij)
   accum_implicit(err, X, ij);
   scale += 1;
 
-  // Occasional update every 100 products.
-  if (((ij - user_start_ij) + 1) % 100 == 0)
+  // Occasional update every 500 products.
+  if (((ij - user_start_ij) + 1) % 500 == 0)
   {
     const int i = X(0, ij);
 

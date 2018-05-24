@@ -1,5 +1,5 @@
 # Compile flags
-CXXFLAGS = -Wall -Werror -I /usr/include/eigen3/ -O3
+CXXFLAGS = -fopenmp -Wall -Werror -I /usr/include/eigen3/ -Ofast -march=native -flto
 # CXXFLAGS = -Wall -Werror -I /usr/local/include/eigen3/ -O3
 # CXXFLAGS = -Wall -Werror -I /usr/local/include/eigen3/ -g
 

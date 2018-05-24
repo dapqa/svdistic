@@ -4,12 +4,135 @@ volumes:
   saves:
 
 services:
-  main:
-    container_name: main
+  one:
+    container_name: one
     volumes:
       - ~/data/saves:/service/data/saves
     build:
       context: ./
       dockerfile: ./Dockerfile
+      args:
+        index: 1
+    tty: true
+
+  two:
+    container_name: two
+    volumes:
+      - ~/data/saves:/service/data/saves
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        index: 2
+    tty: true
+
+  three:
+    container_name: three
+    volumes:
+      - ~/data/saves:/service/data/saves
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        index: 3
+    tty: true
+
+  four:
+    container_name: four
+    volumes:
+      - ~/data/saves:/service/data/saves
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        index: 4
+    tty: true
+
+  five:
+    container_name: five
+    volumes:
+      - ~/data/saves:/service/data/saves
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        index: 5
+    tty: true
+
+  six:
+    container_name: six
+    volumes:
+      - ~/data/saves:/service/data/saves
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        index: 6
+    tty: true
+
+  seven:
+    container_name: seven
+    volumes:
+      - ~/data/saves:/service/data/saves
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        index: 7
+    tty: true
+
+  eight:
+    container_name: eight
+    volumes:
+      - ~/data/saves:/service/data/saves
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        index: 8
+    tty: true
+
+  nine:
+    container_name: nine
+    volumes:
+      - ~/data/saves:/service/data/saves
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        index: 9
+    tty: true
+
+  ten:
+    container_name: ten
+    volumes:
+      - ~/data/saves:/service/data/saves
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        index: 10
+    tty: true
+
+  eleven:
+    container_name: eleven
+    volumes:
+      - ~/data/saves:/service/data/saves
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        index: 11
+    tty: true
+
+  twelve:
+    container_name: twelve
+    volumes:
+      - ~/data/saves:/service/data/saves
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+      args:
+        index: 12
     tty: true
 

@@ -53,11 +53,7 @@ values. Every entry is separated by a newline.
 
 ## CS156b instructions
 Download the cs156b corpus into `preprocessing/`. Run the preprocessing script `preprocessing/process.sh`. This will take a while. Then move the *.data files into `data/corpus/`.
-
-Dummy test instructions:
-```
-./svdistic svd train -n_epochs 1000 -report_freq 100 -fname dummy.data -n_user 4 -n_product 3 -n_example 11
-```
+Optionally, you can simply create a `run.sh` file and place all your command line instructions into there. Then, run `docker build .` and `docker run` to take advantage of our Dockerized setup.
 
 Base data instructions:
 ```
@@ -73,10 +69,4 @@ Qual infer instructions:
 ```
 ./svdistic svdpp infer -fname qual.data -n_user 458294 -n_product 17771 -n_example 2749898
 ```
-
-# Change for docker-machine
-Update types.h
-Update provision.sh
-Update misc/params.py
-Python3 params.py > misc/run.sh
 
