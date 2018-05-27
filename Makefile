@@ -1,9 +1,7 @@
 # Compile flags
 CXXFLAGS = -fopenmp -Wall -Werror -I /usr/include/eigen3/ -Ofast -march=native -flto
-# CXXFLAGS = -Wall -Werror -I /usr/local/include/eigen3/ -O3
-# CXXFLAGS = -Wall -Werror -I /usr/local/include/eigen3/ -g
 
-# TODO: add unit tests to Makefile.
+# All...
 all: svdistic
 
 # Compile train programs

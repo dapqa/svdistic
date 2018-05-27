@@ -2,6 +2,7 @@
 #define TYPES_H
 
 #include <Eigen/Core>
+#include "./config.h"
 #include <iostream>
 #include <cstring>
 #include <cstdlib>
@@ -11,9 +12,6 @@
 
 using namespace Eigen;
 using namespace std;
-
-
-static const int N_LATENT = 200;
 
 typedef Matrix< int, 3, Dynamic > ExampleMat;
 typedef Matrix< float, N_LATENT, Dynamic > UserMat;

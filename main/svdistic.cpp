@@ -117,7 +117,7 @@ int mode_handler(char* argv[], T& model, string fname)
 int main(int argc, char* argv[])
 {
   // File name.
-  string fname = "data.txt";
+  string fname = "dummy.data";
 
   // Ensure program is available.
   if (argc == 1) return usage_message();
@@ -134,15 +134,15 @@ int main(int argc, char* argv[])
     // If they want a SVD.
     SVD model;
     model.model_id = "default_svd";
-    model.N_PRODUCT = 17771;
-    model.N_USER = 500;
-    model.N_EXAMPLE = 100000;
-    model.REPORT_FREQ = 5;
-    model.N_EPOCHS = 15;
+    model.N_PRODUCT = 3;
+    model.N_USER = 4;
+    model.N_EXAMPLE = 11;
+    model.REPORT_FREQ = 2;
+    model.N_EPOCHS = 10;
     model.REG_B = 0.005;
     model.REG_W = 0.015;
     model.LR = 0.001;
-    model.LR_DECAY = 0.9;
+    model.LR_DECAY = 0.98;
 
     // If not help message, require model mode.
     if (argc == 2) return usage_message();
@@ -158,15 +158,15 @@ int main(int argc, char* argv[])
     // If they want a SVD++.
     SVDpp model;
     model.model_id = "default_svdpp";
-    model.N_PRODUCT = 17771;
-    model.N_USER = 500;
-    model.N_EXAMPLE = 100000;
-    model.REPORT_FREQ = 5;
-    model.N_EPOCHS = 15;
+    model.N_PRODUCT = 3;
+    model.N_USER = 4;
+    model.N_EXAMPLE = 11;
+    model.REPORT_FREQ = 2;
+    model.N_EPOCHS = 10;
     model.REG_B = 0.005;
     model.REG_W = 0.015;
     model.LR = 0.001;
-    model.LR_DECAY = 0.9;
+    model.LR_DECAY = 0.98;
 
     // If not help message, require model mode.
     if (argc == 2) return usage_message();

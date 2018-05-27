@@ -24,8 +24,10 @@ Options: required settings are flaired with [r]
 -n_example   INT:     number of examples to process
 -report_freq INT:     frequency of epoch reports
 -n_epochs    INT:     number of epochs to run training for
--reg         FLOAT:   regularization term strength
+-reg_weight  FLOAT:   weight regularization strength
+-reg_bias    FLOAT:   bias regularization strength
 -lr          FLOAT:   learning rate
+-lr_decay    FLOAT:   learning rate decay
 ```
 
 Add your data files to /data/corpus and note the filename as command line arguments to the program. For training and validation, your data files must match the data format specified in the following section with three valid columns denoting user id, product id and ranking. For inference, your data file must still meet the data format, but fill in whatever you want for ranking. We plan on patcing this in later versions.

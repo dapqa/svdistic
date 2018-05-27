@@ -8,10 +8,10 @@ WORKDIR /service
 
 RUN wget https://s3-us-west-2.amazonaws.com/cs156preprocessed/corpus.tgz
 RUN tar -zxvf ./corpus.tgz
+RUN mkdir /service/data
+RUN mv /service/corpus /service/data/
 
 COPY ./ /service
-
-RUN mv /service/corpus/* /service/data/corpus/
 
 RUN make clean; exit 0
 RUN make

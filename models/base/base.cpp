@@ -16,8 +16,6 @@ void Base::train(ExampleMat& X_tr)
     per_epoch(X_tr);
     for (int ij = 0; ij < N_EXAMPLE; ++ij)
     {
-      if ((N_EXAMPLE > 10000000) && (ij % 10000000 == 0))
-        cout << "Computing example " << ij << "." << endl;
       if ((ij == 0) || (X_tr(0, ij) != X_tr(0, ij - 1)))
       {
         init_user(X_tr, ij);
