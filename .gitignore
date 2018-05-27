@@ -1,17 +1,14 @@
 ########### Custom ###########
 *.o
+*.data
+*.txt
+*.dta
 svdistic
 
 provision.sh
 misc/run.sh
 
-data/saves/*
-!data/saves/.gitkeep
-data/corpus/*
-!data/corpus/.gitkeep
 !data/corpus/dummy.data
-data/residuals/*
-!data/residuals/.gitkeep
 
 preprocessing/*
 !preprocessing/process.py
