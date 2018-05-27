@@ -8,7 +8,7 @@ with open("base.dta", "a") as base:
     with open("probe.dta", "a") as probe:
       with open("all.idx", "r") as idx:
         with open("all.dta", "r") as dta:
-          for line_dta, line_idx in zip(dta.readlines(), idx.readlines()):
+          for line_dta, line_idx in zip(dta, idx):
             line_parts = line_dta.split(" ")
             line = ",".join(line_parts[:2] + [line_parts[3]])
             current_idx = int(line_idx.strip())

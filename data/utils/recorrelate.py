@@ -9,7 +9,7 @@ for name in os.listdir("../saves"):
       print(name[:-4] + ".probe_guesses")
       with open("../corpus/probe.data", "r") as fi:
         with open("../saves/" + name, "r") as fy:
-          for inp, guess in zip(fi.readlines(), fy.readlines()):
+          for inp, guess in zip(fi, fy):
             line = inp.split(",")[:2] + [guess]
             fw.write(",".join(line))
 
@@ -19,7 +19,7 @@ for name in os.listdir("../saves"):
       print(name[:-4] + ".qual_guesses")
       with open("../corpus/qual.data", "r") as fi:
         with open("../saves/" + name, "r") as fy:
-          for inp, guess in zip(fi.readlines(), fy.readlines()):
+          for inp, guess in zip(fi, fy):
             line = inp.split(",")[:2] + [guess]
             fw.write(",".join(line))
 

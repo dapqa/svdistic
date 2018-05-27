@@ -5,6 +5,6 @@ for name in os.listdir():
     continue
   with open(name + ".txt", "w") as fw:
     with open(name, "r") as fr:
-      for line in fr.readlines():
+      for line in fr:
         fw.write(line.split(",")[-1])
 

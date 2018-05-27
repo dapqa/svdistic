@@ -11,7 +11,7 @@ for name in opts:
   score = 0
   with open("../saves/" + name, "r") as f:
     with open("../corpus/probe.data", "r") as fr:
-      for p, y in zip(f.readlines(), fr.readlines()):
+      for p, y in zip(f, fr):
         px = float(p.strip())
         py = float(y.strip().split(",")[2])
         x = float(px - py)
