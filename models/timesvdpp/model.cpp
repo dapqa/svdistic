@@ -1,35 +1,22 @@
-#ifndef _SVDPP_H
-#define _SVDPP_H
-#include "model.h"
-#include "helpers.cpp"
+#include "./model.h"
+#include "./helpers.cpp"
 
 
-// Initialize all weights.
-void TimeSVDpp::init_weights()
+/***********************************************
+ * Predict stuff
+ **********************************************/
+// pred = mu + b_u + b_p + W_p(W_u + |R(u)|^-1/2 sum y_j)
+float TimeSVDpp::predict(ExampleMat& X, int ij)
 {
-  a_u = UserVec::Random();
-  b_p_t = ProductVec::Random(); 
-  b_u_t = UserVec::Random(); 
-  SVDpp::init_weights();
+  const int i = X(0, ij);
+  const int j = X(1, ij);
+  return mu + b_p(j) + b_u(i) + W_p.col(j).transpose() *
+      (W_u.col(i) + RuNorm(i) * Ysum.col(i));
 }
 
 
-// Save weights into file.
-void TimeSVDpp::save_weights()
-{
-  save_matrix<float, N_PRODUCT, 1>(b_p_t, "weights/" + model_id + "-b_p_t", N_USER, 1);
-  save_matrix<float, N_USER, 1>(b_u_t, "weights/" + model_id + "-b_u_t", N_USER, 1);
-  save_matrix<float, N_USER, 1>(a_u, "weights/" + model_id + "-a_u", N_USER, 1);
-  SVDpp::save_weights();
-}
+/***********************************************
+ * Update weights
+ **********************************************/
 
-
-// Load weights from file.
-void TimeSVDpp::load_weights()
-{
-  load_matrix<float, N_PRODUCT, 1>(b_p_t, "weights/" + model_id + "-b_p_t", N_USER, 1);
-  load_matrix<float, N_USER, 1>(b_u_t, "weights/" + model_id + "-b_u_t", N_USER, 1);
-  load_matrix<float, N_USER, 1>(a_u, "weights/" + model_id + "-a_u", N_USER, 1);
-  SVDpp::load_weights();
-}
 

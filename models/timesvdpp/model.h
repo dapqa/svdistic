@@ -1,31 +1,31 @@
-#include "../types.h"
-#include "../svdpp/svdpp.h"
-#include "../utils/pipes.h"
+#include "../../types.h"
+#include "../svd/model.h"
+#include "../../utils/pipes.h"
 
 
-#ifndef _TIMESVDPP_H
-#define _TIMESVDPP_H
+#ifndef _SVDPP_H
+#define _SVDPP_H
 
 class TimeSVDpp : public SVDpp
 {
   public:
+    // Manipulate weights
     void init_weights();
     void load_weights();
     void save_weights();
 
   protected:
+
     float predict(ExampleMat& X, int ij);
-
-  private:
-    UserVec a_u;
-    UserVec b_u_t;
-    ProductVec b_p_t;
-
-    void corpus_init(ExampleMat& X);
-    void epoch_init(ExampleMat& X);
-    void user_init();
+    void per_corpus(ExampleMat& X);
+    void per_epoch(ExampleMat& X);
+    void init_user(ExampleMat& X, int ij);
+    void end_user(ExampleMat& X, int ij);
     void update(ExampleMat& X, int ij);
-    
+
+    // Model weights
+    UserVec t_mu;
+    Vector t_mu;
 };
 
 #endif
