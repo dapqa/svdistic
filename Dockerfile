@@ -6,19 +6,20 @@ RUN apt-get install -y wget tar libc6-dev build-essential cmake gcc g++ binutils
 
 WORKDIR /service
 
-RUN wget https://s3-us-west-2.amazonaws.com/cs156preprocessed/corpus.tgz
-RUN tar -zxvf ./corpus.tgz
-RUN mkdir /service/data
-RUN mv /service/corpus /service/data/
+# RUN wget https://s3-us-west-2.amazonaws.com/cs156preprocessed/corpus.tgz
+# RUN tar -zxvf ./corpus.tgz
+# RUN mkdir /service/data
+# RUN mv /service/corpus /service/data/
 
 COPY ./ /service
 
+ARG n_latent
+ENV n_latent=$n_latent
+CMD ["/bin/bash", "-c", "echo \"static const int N_LATENT = $n_latent;\" > ./config.h"]
 RUN make clean; exit 0
 RUN make
 
-WORKDIR /service
-RUN chmod +x ./run.sh
-ARG index
-ENV idx=$index
-CMD ["/bin/bash", "-c", "./run.sh $idx"]
+ARG run_cmd
+ENV run_cmd=$run_cmd
+CMD ["/bin/bash", "-c", "$run_cmd"]
 
