@@ -8,8 +8,8 @@
 // pred = mu + b_u + b_p + W_p(W_u + |R(u)|^-1/2 sum y_j)
 float SVDpp::predict(ExampleMat& X, int ij)
 {
-  const int i = X(0, ij);
-  const int j = X(1, ij);
+  const float i = X(0, ij);
+  const float j = X(1, ij);
   return mu + b_p(j) + b_u(i) + W_p.col(j).transpose() *
       (W_u.col(i) + RuNorm(i) * Ysum.col(i));
 }
@@ -22,8 +22,8 @@ float SVDpp::predict(ExampleMat& X, int ij)
 // Update product weight: W_p = W_p + lr*(e*W_u[ui] - g * W_p)
 void SVDpp::product_weight(float err, ExampleMat& X, int ij)
 {
-  const int i = X(0, ij);
-  const int j = X(1, ij);
+  const float i = X(0, ij);
+  const float j = X(1, ij);
   W_p.col(j) += LR * (err * (W_u.col(i) + RuNorm(i) * Ysum.col(i)) -
                       REG_W * W_p.col(j));
 }
@@ -33,7 +33,7 @@ void SVDpp::implicit_weight(ExampleMat &X, int i)
 {
   for (int ijj = user_start_ij; ijj < user_start_ij + Ru(i); ++ijj)
   {
-    const int jj = X(1, ijj);
+    const float jj = X(1, ijj);
     W_i.col(jj) += LR * (implicit_term - REG_W * W_i.col(jj));
   }
 }
@@ -41,8 +41,8 @@ void SVDpp::implicit_weight(ExampleMat &X, int i)
 // W_i = W_i + LR * (err * Runorm * W_p - REG * W_i)
 void SVDpp::accum_implicit(float err, ExampleMat& X, int ij)
 {
-  const int i = X(0, ij);
-  const int j = X(1, ij);
+  const float i = X(0, ij);
+  const float j = X(1, ij);
   implicit_term += err * RuNorm(i) * W_p.col(j);
 }
 

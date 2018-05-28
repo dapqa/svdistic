@@ -1,8 +1,7 @@
 FROM ubuntu:16.04
 MAINTAINER "Eric Zhao"
 
-RUN apt-get update
-RUN apt-get install -y wget tar libc6-dev build-essential cmake gcc g++ binutils make libeigen3-dev python3
+RUN apt-get update && apt-get install -y wget tar libc6-dev build-essential cmake gcc g++ binutils make libeigen3-dev python3
 
 WORKDIR /service
 

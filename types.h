@@ -13,7 +13,7 @@
 using namespace Eigen;
 using namespace std;
 
-typedef Matrix< int, 3, Dynamic > ExampleMat;
+typedef Matrix< float, 3, Dynamic > ExampleMat;
 typedef Matrix< float, N_LATENT, Dynamic > UserMat;
 typedef Matrix< float, N_LATENT, Dynamic > ProductMat;
 typedef Matrix< float, N_LATENT, 1 > LatentVec;

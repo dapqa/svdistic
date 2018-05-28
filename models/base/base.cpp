@@ -92,7 +92,7 @@ void Base::calc_mu(ExampleMat& X)
 // Calculate for a specific example.
 void Base::user_bias(float err, ExampleMat& X, int ij)
 {
-  const int user = X(0, ij);
+  const float user = X(0, ij);
   b_u(user) = b_u(user) + LR * (err - REG_B * b_u(user));
 }
 
@@ -101,7 +101,7 @@ void Base::user_bias(float err, ExampleMat& X, int ij)
 // Calculate for a specific example.
 void Base::product_bias(float err, ExampleMat& X, int ij)
 {
-  const int product = X(1, ij);
+  const float product = X(1, ij);
   b_p(product) = b_p(product) + LR * (err - REG_B * b_p(product));
 }
 

@@ -31,7 +31,7 @@ void SVDpp::init_user(ExampleMat& X, int ij)
   user_start_ij = ij;
 
   // Build initial Ysum calculation.
-  const int i = X(0, ij);
+  const float i = X(0, ij);
   Ysum.col(i).setZero();
   for (int ijj = user_start_ij; ijj < user_start_ij + Ru(i); ++ijj)
   {
@@ -70,7 +70,7 @@ void SVDpp::update(ExampleMat& X, int ij)
   // Occasional update every 500 products.
   if (((ij - user_start_ij) + 1) % 500 == 0)
   {
-    const int i = X(0, ij);
+    const float i = X(0, ij);
 
     implicit_term = implicit_term / (float) scale;
     implicit_weight(X, i);

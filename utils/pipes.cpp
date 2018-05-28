@@ -13,11 +13,11 @@ int input_pipeline(ExampleMat& X, int N_EXAMPLE, string f_name)
   }
 
   // Staging objs we'll encounter
-  int i, j, y;
+  float i, j, y;
   int ij = 0;
 
   // Scan in data. We assume X is initialized.
-  while(fscanf(fp, "%d,%d,%d", &i, &j, &y) != EOF)
+  while(fscanf(fp, "%f,%f,%f", &i, &j, &y) != EOF)
   {
     // First index is user_id
     X(0, ij) = i;
