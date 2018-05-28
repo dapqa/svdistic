@@ -11,8 +11,6 @@ Find installation instructions here:
 <http://eigen.tuxfamily.org/index.php?title=Main_Page>.
 
 ## Usage
-To build and run the Dockerfile: `docker build .` and `docker run`.
-
 Usage instructions for the actual Svdistic program.
 ```
 Usage: ./svdistic <svd/svdpp/help> <train/infer/score>
@@ -30,12 +28,11 @@ Options: required settings are flaired with [r]
 -lr_decay    FLOAT:   learning rate decay
 ```
 
-Add your data files to /data/corpus and note the filename as command line arguments to the program. For training and validation, your data files must match the data format specified in the following section with three valid columns denoting user id, product id and ranking. For inference, your data file must still meet the data format, but fill in whatever you want for ranking. We plan on patcing this in later versions.
-
+Add your data files to /data/corpus and note the filename as command line arguments to the program. For training and validation, your data files must match the data format specified in the following section with three valid columns denoting user id, product id and ranking. For inference, your data file must still meet the data format, but fill in whatever you want for ranking.
 
 ## Speed.
 We performed benchmarks on a 2 core i7-7660U 2.5GHz processor with process memory usage capped at 0.4GB. We test the speed of an epoch across 95 million examples with 500,000 users and 18,000 products, using 200 latent factors.
-The basic SVD model takes 55 second per epoch. The SVD++ model takes 1 minute and 8 seconds per epoch.
+The basic SVD model takes 20 second per epoch. The SVD++ model takes 35 seconds per epoch.
 
 ## Data format.
 ### Input data.
@@ -52,23 +49,4 @@ Please note that **entries must be ordered by user index**. Entries with the sam
 ### Weight dumps.
 Weights dumps are a column-major iteration through matrix
 values. Every entry is separated by a newline.
-
-## CS156b instructions
-Download the cs156b corpus into `preprocessing/`. Run the preprocessing script `preprocessing/process.sh`. This will take a while. Then move the *.data files into `data/corpus/`.
-Optionally, you can simply create a `run.sh` file and place all your command line instructions into there. Then, run `docker build .` and `docker run` to take advantage of our Dockerized setup.
-
-Base data instructions:
-```
-./svdistic svdpp train -n_epochs 10 -report_freq 1 -fname base.data -n_user 458294 -n_product 17771 -n_example 94362233 -lr 0.007 -reg_bias 0.005 -reg_weight 0.015 -lr_decay 0.9
-```
-
-Probe score instructions:
-```
-./svdistic svdpp score -fname probe.data -n_user 458294 -n_product 17771 -n_example 1374739
-```
-
-Qual infer instructions:
-```
-./svdistic svdpp infer -fname qual.data -n_user 458294 -n_product 17771 -n_example 2749898
-```
 

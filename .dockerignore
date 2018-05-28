@@ -1,5 +1,6 @@
-*.data
-*.dta
-*.idx
-*.txt
+data/corpus/*
+!data/corpus/dummy.data
+!data/corpus/.gitkeep
+data/saves/*
+!data/saves/.gitkeep
 
