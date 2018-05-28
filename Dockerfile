@@ -14,7 +14,7 @@ COPY ./ /service
 
 ARG n_latent
 ENV n_latent=$n_latent
-CMD ["/bin/bash", "-c", "echo \"static const int N_LATENT = $n_latent;\" > ./config.h"]
+RUN ["/bin/bash", "-c", "echo \"static const int N_LATENT = $n_latent;\" > ./config.h"]
 RUN make clean; exit 0
 RUN make
 
