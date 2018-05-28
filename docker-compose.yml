@@ -12,7 +12,7 @@ services:
       context: ./
       dockerfile: ./Dockerfile
       args:
-        run_cmd: "./svdistic svdpp train -n_epochs 10 -report_freq 1 -fname base.data -n_user 4 -n_product 3 -n_example 11 -lr 0.007 -reg_bias 0.005 -reg_weight 0.015 -lr_decay 0.9"
+        run_cmd: "./svdistic svdpp train -n_epochs 10 -report_freq 1 -fname dummy.data -n_user 4 -n_product 3 -n_example 11 -lr 0.007 -reg_bias 0.005 -reg_weight 0.015 -lr_decay 0.9"
         n_latent: 400
     tty: true
 

@@ -5,10 +5,10 @@ RUN apt-get update && apt-get install -y wget tar libc6-dev build-essential cmak
 
 WORKDIR /service
 
-# RUN wget https://s3-us-west-2.amazonaws.com/cs156preprocessed/corpus.tgz
-# RUN tar -zxvf ./corpus.tgz
-# RUN mkdir /service/data
-# RUN mv /service/corpus /service/data/
+RUN wget https://s3-us-west-2.amazonaws.com/cs156preprocessed/corpus.tgz
+RUN tar -zxvf ./corpus.tgz
+RUN mkdir /service/data
+RUN mv /service/corpus /service/data/
 
 COPY ./ /service
 

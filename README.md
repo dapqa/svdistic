@@ -30,6 +30,10 @@ Options: required settings are flaired with [r]
 
 Add your data files to /data/corpus and note the filename as command line arguments to the program. For training and validation, your data files must match the data format specified in the following section with three valid columns denoting user id, product id and ranking. For inference, your data file must still meet the data format, but fill in whatever you want for ranking.
 
+## Docker
+Use Docker for painless hyperparameter optimization.
+Simply update the Dockerfile to download your dataset into data/corpus and add your desired hyperparameter cases to docker-compose.
+
 ## Speed.
 We performed benchmarks on a 2 core i7-7660U 2.5GHz processor with process memory usage capped at 0.4GB. We test the speed of an epoch across 95 million examples with 500,000 users and 18,000 products, using 200 latent factors.
 The basic SVD model takes 20 second per epoch. The SVD++ model takes 35 seconds per epoch.
