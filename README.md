@@ -10,6 +10,12 @@ If you wish to do not wish to deploy through Docker, you must have Eigen install
 Find installation instructions here:
 <http://eigen.tuxfamily.org/index.php?title=Main_Page>.
 
+## Speed.
+SVDistic was benchmarked on task of training an SVD and SVD++ model across 95 million examples (from the Netflix dataset) with 500,000 users and 18,000 products using 200 latent factors.
+Each model was allocated a single 2.3 GHz Intel Xeon® E5-2686 v4 (Broadwell) core and each occupied a maximum of 1.7 GB of memory.
+The SVD++ model completed a full epoch in 32.3 seconds.
+The SVD model completed a full epoch in 11.3 seconds.
+
 ## Usage
 Usage instructions for the actual Svdistic program.
 ```
@@ -33,10 +39,6 @@ Add your data files to /data/corpus and note the filename as command line argume
 ## Docker
 Use Docker for painless hyperparameter optimization.
 Simply update the Dockerfile to download your dataset into data/corpus and add your desired hyperparameter cases to docker-compose.
-
-## Speed.
-We performed benchmarks on a 2 core i7-7660U 2.5GHz processor with process memory usage capped at 0.4GB. We test the speed of an epoch across 95 million examples with 500,000 users and 18,000 products, using 200 latent factors.
-The basic SVD model takes 20 second per epoch. The SVD++ model takes 35 seconds per epoch.
 
 ## Data format.
 ### Input data.
