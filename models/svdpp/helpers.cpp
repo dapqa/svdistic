@@ -33,7 +33,7 @@ void SVDpp::init_user(ExampleMat& X, int ij)
   // Build initial Ysum calculation.
   const float i = X(0, ij);
   Ysum.col(i).setZero();
-  for (int ijj = user_start_ij; ijj < user_start_ij + Ru(i); ++ijj)
+  for (int ijj = user_start_ij; ijj < ((int) user_start_ij) + ((int) Ru(i)); ++ijj)
   {
     Ysum.col(i) += W_i.col(X(1, ijj));
   }
@@ -78,7 +78,7 @@ void SVDpp::update(ExampleMat& X, int ij)
     scale = 0;
 
     Ysum.col(i).setZero();
-    for (int ijj = user_start_ij; ijj < user_start_ij + Ru(i); ++ijj)
+    for (int ijj = user_start_ij; ijj < ((int) user_start_ij) + ((int) Ru(i)); ++ijj)
     {
       Ysum.col(i) += W_i.col(X(1, ijj));
     }

@@ -31,7 +31,7 @@ void SVDpp::product_weight(float err, ExampleMat& X, int ij)
 // W_i = W_i + LR * (err * Runorm * W_p - REG * W_i)
 void SVDpp::implicit_weight(ExampleMat &X, int i)
 {
-  for (int ijj = user_start_ij; ijj < user_start_ij + Ru(i); ++ijj)
+  for (int ijj = user_start_ij; ijj < ((int) user_start_ij) + ((int) Ru(i)); ++ijj)
   {
     const float jj = X(1, ijj);
     W_i.col(jj) += LR * (implicit_term - REG_W * W_i.col(jj));
