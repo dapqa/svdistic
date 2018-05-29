@@ -11,7 +11,7 @@ Find installation instructions here:
 <http://eigen.tuxfamily.org/index.php?title=Main_Page>.
 
 ## Speed.
-SVDistic was benchmarked on task of training an SVD and SVD++ model across 95 million examples (from the Netflix dataset) with 500,000 users and 18,000 products using 200 latent factors.
+SVDistic was benchmarked on task of training an SVD and SVD++ model across 95 million examples (from the Netflix dataset) with 500,000 users and 18,000 products using 100 latent factors.
 Each model was allocated a single 2.3 GHz Intel Xeon® E5-2686 v4 (Broadwell) core and each occupied a maximum of 1.7 GB of memory.
 The SVD++ model completed a full epoch in 32.3 seconds.
 The SVD model completed a full epoch in 11.3 seconds.
