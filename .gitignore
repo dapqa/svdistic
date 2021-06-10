@@ -4,9 +4,25 @@
 *.txt
 !CMakeLists.txt
 *.dta
+*.cbp
 svdistic
-
+Makefile
 provision.sh
+cmake_install.cmake
+.profile
+
+cmake-build-debug
+cmake-build-release
+CMakeFiles
+
+.bash*
+
+########### Data files ###########
+data/saves/*
+data/corpus/*
+
+!data/saves/.gitkeep
+!data/corpus/.gitkeep
 !data/corpus/dummy.data
 
 
