@@ -5,7 +5,6 @@
 !CMakeLists.txt
 *.dta
 *.cbp
-Makefile
 provision.sh
 cmake_install.cmake
 .profile
