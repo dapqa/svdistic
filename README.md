@@ -1,10 +1,13 @@
-# SVDistic
+# Eigen3 SVD
 Optimized-for-speed Eigen implementations of SVD, SVD++ and TimeSVD++ algorithms.
 
+This repository is a redistribution of [Eric Zhao's SVDistic](https://github.com/ericzhao28/SVDistic).  
+Original author is Eric Zhao, and this version differs from their only in build and Docker configurations.
+
 ![license](https://img.shields.io/github/license/mashape/apistatus.svg)
-[![Maintenance Intended](http://maintained.tech/badge.svg)](http://maintained.tech/) 
+ 
 ## Requirements
-This application is fully Dockerized for easier usage. We suggest having at least Docker 18.03.1-ce installed.
+This application is fully Dockerized for easier usage.
 
 If you wish to do not wish to deploy through Docker, you must have Eigen installed.
 Find installation instructions here:
@@ -37,8 +40,33 @@ Options: required settings are flaired with [r]
 Add your data files to /data/corpus and note the filename as command line arguments to the program. For training and validation, your data files must match the data format specified in the following section with three valid columns denoting user id, product id and ranking. For inference, your data file must still meet the data format, but fill in whatever you want for ranking.
 
 ## Docker
-Use Docker for painless hyperparameter optimization.
-Simply update the Dockerfile to download your dataset into data/corpus and add your desired hyperparameter cases to docker-compose.
+There are two Docker configurations for running and developing SVDistic respectively.  
+
+### Running & Evaluation
+```docker/prod/Dockerfile``` provides configuration for production image, which contains dependencies
+required for building, deploying, and running SVDistic.
+
+Create an image from this file and run a container with mounted dir (eg. ```your-local-project-dir:/svdistic```).
+Then you can use SVDistic like it described in the Usage section.
+
+### Development
+```docker/dev/Dockerfile``` provides configuration for development image, which contains additional
+dependencies and commands to run a Linux container for remote development on any machine.
+
+Create an image from this file and run a container with forwarded 22 port, 
+```SYS_PTRACE``` capability to enable debug, and some mounts if needed.
+Example:
+```shell
+docker run
+-p 127.0.0.1:2222:22
+--name svdistic-dev
+-d
+--cap-add SYS_PTRACE
+your-image-tag:latest 
+```
+
+Then you can develop SVDistic like on a remote server, using e.g. CLion configuration.
+
 
 ## Data format.
 ### Input data.
