@@ -1,4 +1,4 @@
-# Eigen3 SVD
+# SVDistic
 Optimized-for-speed Eigen implementations of SVD, SVD++ and TimeSVD++ algorithms.
 
 This repository is a redistribution of [Eric Zhao's SVDistic](https://github.com/ericzhao28/SVDistic).  
